@@ -4,13 +4,13 @@ import { useSupabase } from "../supabase/supabaseClient";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const { supabase } = useSupabase(); // Get the supabase instance
+  const { supabase } = useSupabase();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);  // Add userEmail state
+  const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
-    if (!supabase) return; // Check if supabase is initialized
+    if (!supabase) return;
 
     const checkSession = async () => {
       try {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         if (session && session.user) {
           setIsLoggedIn(true);
           setUserId(session.user.id);
-          setUserEmail(session.user.email);  // Set userEmail from session
+          setUserEmail(session.user.email);
         }
       } catch (error) {
         console.error("Error checking session:", error.message);
@@ -27,13 +27,12 @@ export const AuthProvider = ({ children }) => {
 
     checkSession();
 
-    // Subscribe to auth state changes
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         if (session && session.user) {
           setIsLoggedIn(true);
           setUserId(session.user.id);
-          setUserEmail(session.user.email);  // Set userEmail on auth state change
+          setUserEmail(session.user.email);
         } else {
           setIsLoggedIn(false);
           setUserId(null);
@@ -45,7 +44,7 @@ export const AuthProvider = ({ children }) => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [supabase]); // Ensure supabase is included in the dependency array
+  }, [supabase]);
 
   const login = (email) => {
     setIsLoggedIn(true);
@@ -53,7 +52,7 @@ export const AuthProvider = ({ children }) => {
   };
   
   const logout = async () => {
-    await supabase.auth.signOut(); // Sign out the user from Supabase
+    await supabase.auth.signOut();
     setIsLoggedIn(false);
     setUserId(null);
     setUserEmail(null);
