@@ -1,8 +1,18 @@
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Nav from "../components/nav";
 import Footer from "../components/footer";
 
 const Layout = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      navigate("/home");
+    }
+  }, [location, navigate]);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Sticky navbar */}
