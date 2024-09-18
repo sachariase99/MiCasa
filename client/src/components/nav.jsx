@@ -5,22 +5,24 @@ import { FaSearch } from "react-icons/fa";
 
 const Nav = () => {
   return (
-    <nav className="relative z-50">
+    <div className="relative z-10">
       <div
-        className="absolute top-0 w-full h-24 bg-[#1D1E2C] -z-10"
+        className="absolute w-full h-24 bg-[#1D1E2C] -z-10"
         style={{
           clipPath:
             "polygon(0% 100%, 30% 64px, 70% 85px, 100% 100%, 100% 0%, 0% 0%)",
         }}
       ></div>
 
-      <div className="flex items-center justify-between py-6 z-10">
-        <img className="pl-10" src={Logo} alt="Logo" />
+      <div className="flex items-center justify-between py-6">
+        <Link to="/home">
+          <img className="pl-10" src={Logo} alt="Logo" />
+        </Link>
         <div className="hidden lg:flex items-center pr-10 -mt-20 text-white text-2xl gap-5">
           <Link className="hover:text-[#AC9FBB]" to="/home">
             Forside
           </Link>
-          <Link className="hover:text-[#AC9FBB]" to="/houses">
+          <Link className="hover:text-[#AC9FBB]" to="/estates">
             Boliger
           </Link>
           <Link className="hover:text-[#AC9FBB]" to="/contact">
@@ -42,7 +44,7 @@ const Nav = () => {
         </div>
         <BurgerMenu />
       </div>
-    </nav>
+    </div>
   );
 };
 
