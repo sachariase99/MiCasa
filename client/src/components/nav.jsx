@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 import Logo from "../assets/Logo.png";
 import BurgerMenu from "./burgermenu";
 import { FaSearch } from "react-icons/fa";
 
 const Nav = () => {
+  const { isLoggedIn } = useContext(AuthContext);
+
   return (
     <div className="relative z-10">
       <div
@@ -28,9 +32,15 @@ const Nav = () => {
           <Link className="hover:text-[#AC9FBB]" to="/contact">
             Kontakt
           </Link>
-          <Link className="hover:text-[#AC9FBB]" to="/login">
-            Login
-          </Link>
+          {isLoggedIn ? (
+            <Link className="hover:text-[#AC9FBB]" to="/user">
+              Profil
+            </Link>
+          ) : (
+            <Link className="hover:text-[#AC9FBB]" to="/login">
+              Login
+            </Link>
+          )}
           <div className="flex">
             <input
               className="rounded-l-md placeholder:pl-2 text-lg"
