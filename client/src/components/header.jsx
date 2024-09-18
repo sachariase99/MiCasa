@@ -27,15 +27,15 @@ const Header = () => {
   }, [slides.length]);
 
   return (
-    <header>
-      <div className="absolute top-0 w-full">
+    <div>
+      <div className="absolute top-0 w-full -z-10">
         <img
           className="w-full h-[1000px] hidden xl:block"
           src={slides[currentSlide]}
           alt="Header Image"
         />
       </div>
-    </header>
+    </div>
   );
 };
 
