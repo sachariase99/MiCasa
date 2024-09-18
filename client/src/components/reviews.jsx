@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import useReviews from "../hooks/useReview";
+import { AuthContext } from "../context/authContext";
 
 const Reviews = () => {
   const { reviews, loading, error, addReview } = useReviews();
+  const { isLoggedIn, userId } = useContext(AuthContext);
   const [isFormVisible, setFormVisible] = useState(false);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [form, setForm] = useState({
@@ -47,11 +49,17 @@ const Reviews = () => {
     e.preventDefault();
     const { name, title, content } = form;
 
-    if (!name || !title || !content) {
+    if (!name || !title || !content || !isLoggedIn) {
       return;
     }
 
-    addReview({ name, title, content, created_at: new Date().toISOString() });
+    addReview({
+      name,
+      title,
+      content,
+      user_id: userId,
+      created_at: new Date().toISOString()
+    });
     setForm({ name: "", title: "", content: "" });
     toggleForm();
   };
@@ -89,7 +97,7 @@ const Reviews = () => {
             isFormVisible ? "max-h-screen py-8" : "max-h-0"
           }`}
         >
-          {isFormVisible && (
+          {isFormVisible && isLoggedIn && (
             <form className="flex flex-col m-auto w-1/2 xl:w-1/3 relative mt-10" onSubmit={handleSubmit}>
               <div onClick={toggleForm} className="absolute -top-10 right-8 cursor-pointer">
                 <span className="block bg-white h-1 w-8 absolute -rotate-45"></span>
@@ -127,6 +135,7 @@ const Reviews = () => {
               </button>
             </form>
           )}
+          {!isLoggedIn && <p className="text-white text-center">Du skal være logget ind for at skrive en anmeldelse.</p>}
         </div>
       </div>
     </div>
