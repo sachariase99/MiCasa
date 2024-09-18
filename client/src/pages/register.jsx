@@ -35,28 +35,29 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-xl h-[50vh] mb-8 mx-8 relative">
-      <div className="w-1/2 absolute left-1/2 -translate-x-1/2 top-10">
-        <h2 className="text-2xl font-bold mb-12">Register</h2>
-        <form onSubmit={handleRegister} className="flex flex-col">
+    <div className="p-4 mb-8 mx-8 my-24">
+      <div>
+        <h2 className="text-4xl font-bold mb-2">Register</h2>
+        <p className="text-xl font-semibold mb-3">
+          Indtast din email og adgangskode for at registrere
+        </p>
+        <form onSubmit={handleRegister} className="flex flex-col w-1/3">
           {error && <p style={{ color: "red" }}>{error}</p>}
           {successMessage && (
             <p className="text-green absolute top-2 left-1/2 -translate-x-1/2 bg-[#c2c2c2] py-2 px-4">
               {successMessage}
             </p>
           )}
-
-          <label htmlFor="email">Email:</label>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="border-[1px] px-2 py-1 w-full mb-2 outline-none border-[#C52525] hover:bg-[#eee]"
+            placeholder="Indtast din email"
+            className="hover:bg-[#eee] border-[#C52525] border-[1px] px-2 py-1 w-full mb-2 outline-none shadow-xl"
           />
 
-          <label htmlFor="password">Password:</label>
           <input
             id="password"
             type="password"
@@ -64,13 +65,14 @@ const RegisterPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength="6"
-            className="border-[1px] px-2 py-1 w-full outline-none border-[#C52525] hover:bg-[#eee]"
+            placeholder="Indtast din adgangskode"
+            className="hover:bg-[#eee] border-[#C52525] border-[1px] px-2 py-1 w-full outline-none shadow-xl"
           />
 
-          <div className="flex items-center mt-6">
+          <div className="flex flex-row-reverse items-end justify-between mt-4">
             <button
               type="submit"
-              className="hover:bg-[#eee] w-1/3 justify-start py-2 mr-3 border-[#C52525] border-[1px] uppercase font-bold"
+              className="bg-[#F7EBEC] hover:bg-[#DDBDD5] w-1/3 justify-start py-2 border-[#C52525] border-[1px] uppercase font-bold shadow-xl"
             >
               Register
             </button>
