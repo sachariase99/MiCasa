@@ -42,7 +42,41 @@ const useReviews = () => {
     }
   };
 
-  return { reviews, loading, error, addReview };
+  const deleteReview = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .delete()
+        .match({ id });
+
+      if (error) throw error;
+
+      setReviews((prevReviews) => prevReviews.filter(review => review.id !== id));
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const updateReview = async (id, updatedReview) => {
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .update(updatedReview)
+        .match({ id });
+
+      if (error) throw error;
+
+      setReviews((prevReviews) =>
+        prevReviews.map((review) =>
+          review.id === id ? { ...review, ...updatedReview } : review
+        )
+      );
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  return { reviews, loading, error, addReview, deleteReview, updateReview };
 };
 
 export default useReviews;
