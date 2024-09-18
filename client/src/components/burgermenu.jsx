@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 import { FaSearch } from "react-icons/fa";
 
 const BurgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLoggedIn } = useContext(AuthContext);
 
   return (
     <div className="lg:hidden">
@@ -60,15 +62,21 @@ const BurgerMenu = () => {
           <Link className="text-2xl hover:text-[#AC9FBB]" to="/home">
             Forside
           </Link>
-          <Link className="text-2xl hover:text-[#AC9FBB]" to="/houses">
+          <Link className="text-2xl hover:text-[#AC9FBB]" to="/estates">
             Boliger
           </Link>
           <Link className="text-2xl hover:text-[#AC9FBB]" to="/contact">
             Kontakt
           </Link>
-          <Link className="text-2xl hover:text-[#AC9FBB]" to="/login">
-            Login
-          </Link>
+          {isLoggedIn ? (
+            <Link className="text-2xl hover:text-[#AC9FBB]" to="/user">
+              Profil
+            </Link>
+          ) : (
+            <Link className="text-2xl hover:text-[#AC9FBB]" to="/login">
+              Login
+            </Link>
+          )}
           <div className="flex">
             <input
               className="rounded-l-md placeholder:pl-2 text-lg"
