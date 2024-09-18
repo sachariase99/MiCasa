@@ -29,6 +29,9 @@ const useEstates = () => {
               zipcode
             ),
             estate_types (
+              name
+            ),
+            employees (
               *
             )
           `);
@@ -41,8 +44,11 @@ const useEstates = () => {
           energyLabel: estate.energy_labels ? estate.energy_labels.letter : null,
           city: estate.cities ? estate.cities.name : null,
           zipcode: estate.cities ? estate.cities.zipcode : null,
-          estateType: estate.estate_types ? estate.estate_types.name : null
+          estateType: estate.estate_types ? estate.estate_types.name : null,
+          employee: estate.employees || null
         }));
+
+        console.log('Transformed Estates Data:', transformedEstates);
 
         setEstates(transformedEstates);
       } catch (error) {
