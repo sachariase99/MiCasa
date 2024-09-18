@@ -72,7 +72,7 @@ const RegisterPage = () => {
           <div className="flex flex-row-reverse items-end justify-between mt-4">
             <button
               type="submit"
-              className="bg-[#F7EBEC] hover:bg-[#DDBDD5] w-1/3 justify-start py-2 border-[#C52525] border-[1px] uppercase font-bold shadow-xl"
+              className="bg-[#F7EBEC] hover:bg-[#DDBDD5] w-1/3 justify-start py-2 rounded-lg uppercase font-bold shadow-xl"
             >
               Register
             </button>
