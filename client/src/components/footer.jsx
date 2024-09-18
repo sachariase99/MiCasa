@@ -38,7 +38,7 @@ const Footer = () => {
         </div>
         <div className="flex flex-col mt-6 lg:mt-0">
           <Link to="/home">Forside</Link>
-          <Link to="/houses">Boliger</Link>
+          <Link to="/estates">Boliger</Link>
           <Link to="/contact">Kontakt</Link>
           <Link to="/login">Login</Link>
         </div>
