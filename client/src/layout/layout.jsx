@@ -16,12 +16,14 @@ const Layout = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Sticky navbar */}
-      <header className="sticky top-0 z-50">
+      <header className="fixed top-0 left-0 w-full z-10">
         <Nav />
       </header>
 
       {/* Main content area */}
-      <main className="flex-grow">
+      <main className="flex-grow pt-16">
+        {" "}
+        {/* Adjust padding-top as needed */}
         <Outlet />
       </main>
 
