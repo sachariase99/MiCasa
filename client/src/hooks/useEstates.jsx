@@ -1,4 +1,3 @@
-// src/hooks/useEstates.js
 import { useState, useEffect } from "react";
 import { useSupabase } from "../supabase/supabaseClient";
 
@@ -12,10 +11,8 @@ const useEstates = (query) => {
     const fetchEstates = async () => {
       setLoading(true);
       try {
-        // Ensure query is a string
         const searchQuery = query ? query.toLowerCase() : "";
 
-        // Fetch estates data
         const { data: estatesData, error: estatesError } = await supabase
           .from('estates')
           .select(`
@@ -43,7 +40,6 @@ const useEstates = (query) => {
 
         if (estatesError) throw estatesError;
 
-        // Filter estates data
         const filteredEstates = estatesData.filter(estate => {
           const addressMatch = estate.address?.toLowerCase().includes(searchQuery);
 
@@ -53,7 +49,6 @@ const useEstates = (query) => {
           return addressMatch || cityMatch || estateTypeMatch;
         });
 
-        // Transform estates data
         const transformedEstates = filteredEstates.map(estate => ({
           ...estate,
           images: estate.estate_image_rel?.map(rel => rel.images?.image_url || null) || [],
