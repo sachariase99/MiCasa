@@ -23,7 +23,9 @@ const BurgerMenu = () => {
   };
 
   return (
-    <div className="lg:hidden"> {/* Responsive design for mobile view */}
+    <div className="lg:hidden">
+      {" "}
+      {/* Responsive design for mobile view */}
       {/* Condition to show the burger button if the menu is closed */}
       {!isOpen && (
         <button
@@ -46,7 +48,6 @@ const BurgerMenu = () => {
           </svg>
         </button>
       )}
-
       {/* Menu */}
       <div
         className={`fixed top-0 right-0 w-3/4 h-full bg-[#1D1E2C] text-white transform transition-transform ${
@@ -73,14 +74,24 @@ const BurgerMenu = () => {
         </div>
         <div className="flex flex-col items-center space-y-6">
           {/* Links for navigation */}
-          <Link className="text-2xl hover:text-[#AC9FBB]" to="/home">Forside</Link>
-          <Link className="text-2xl hover:text-[#AC9FBB]" to="/estates">Boliger</Link>
-          <Link className="text-2xl hover:text-[#AC9FBB]" to="/contact">Kontakt</Link>
+          <Link className="text-2xl hover:text-[#AC9FBB]" to="/home">
+            Forside
+          </Link>
+          <Link className="text-2xl hover:text-[#AC9FBB]" to="/estates">
+            Boliger
+          </Link>
+          <Link className="text-2xl hover:text-[#AC9FBB]" to="/contact">
+            Kontakt
+          </Link>
           {/* Conditional rendering based on login state */}
           {isLoggedIn ? (
-            <Link className="text-2xl hover:text-[#AC9FBB]" to="/user">Profil</Link>
+            <Link className="text-2xl hover:text-[#AC9FBB]" to="/user">
+              Profil
+            </Link>
           ) : (
-            <Link className="text-2xl hover:text-[#AC9FBB]" to="/login">Login</Link>
+            <Link className="text-2xl hover:text-[#AC9FBB]" to="/login">
+              Login
+            </Link>
           )}
           {/* Form for search functionality */}
           <form className="flex" onSubmit={handleSearch}>
@@ -93,9 +104,14 @@ const BurgerMenu = () => {
               placeholder="Indtast søgeord" // Placeholder text
             />
             {/* Search button with an icon */}
-            <div className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer">
-              <FaSearch className="text-md" /> {/* Using a search icon from the react-icons library */}
-            </div>
+            <button
+              type="submit"
+              className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer"
+              aria-label="Search Button"
+            >
+              <FaSearch className="text-md" />{" "}
+              {/* Using a search icon from the react-icons library */}
+            </button>
           </form>
         </div>
       </div>
