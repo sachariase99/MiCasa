@@ -1,5 +1,6 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
+// src/components/Nav.js
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import Logo from "../assets/Logo.png";
 import BurgerMenu from "./burgermenu";
@@ -7,6 +8,15 @@ import { FaSearch } from "react-icons/fa";
 
 const Nav = () => {
   const { isLoggedIn } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <div className="relative z-10">
@@ -41,16 +51,21 @@ const Nav = () => {
               Login
             </Link>
           )}
-          <div className="flex">
+          <form onSubmit={handleSearch} className="flex">
             <input
-              className="rounded-l-md placeholder:pl-2 text-lg"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="rounded-l-md pl-2 text-lg text-gray-500 outline-none"
               type="text"
               placeholder="Indtast søgeord"
             />
-            <div className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer">
+            <button
+              type="submit"
+              className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer"
+            >
               <FaSearch className="text-md" />
-            </div>
-          </div>
+            </button>
+          </form>
         </div>
         <BurgerMenu />
       </div>

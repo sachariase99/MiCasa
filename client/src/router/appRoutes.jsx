@@ -7,6 +7,7 @@ import Home from "../pages/home";
 import Estates from "../pages/estates";
 import EstateDetails from "../pages/estateDetails";
 import Contact from "../pages/contact";
+import SearchResults from "../pages/searchResults";
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,7 @@ const AppRoutes = () => {
           <Route path="/estates" element={<Estates />} />
           <Route path="/estates/:id" element={<EstateDetails />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/search" element={<SearchResults />} />
         </Route>
       </Routes>
     </Router>
