@@ -1,11 +1,20 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { FaSearch } from "react-icons/fa";
 
 const BurgerMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoggedIn } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   return (
     <div className="lg:hidden">
@@ -38,10 +47,7 @@ const BurgerMenu = () => {
         }`}
       >
         <div className="flex items-center justify-end p-6">
-          <button
-            className="p-2"
-            onClick={() => setIsOpen(false)}
-          >
+          <button className="p-2" onClick={() => setIsOpen(false)}>
             <svg
               className="w-8 h-8"
               fill="none"
@@ -77,16 +83,18 @@ const BurgerMenu = () => {
               Login
             </Link>
           )}
-          <div className="flex">
-            <input
-              className="rounded-l-md placeholder:pl-2 text-lg"
-              type="text"
-              placeholder="Indtast søgeord"
-            />
-            <div className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer">
-              <FaSearch className="text-md" />
-            </div>
-          </div>
+          <form className="flex" onSubmit={handleSearch}>
+              <input
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="rounded-l-md pl-2 text-lg text-gray-500 outline-none"
+                type="text"
+                placeholder="Indtast søgeord"
+              />
+              <div className="bg-[#59656F] h-8 w-8 flex items-center justify-center rounded-r-md cursor-pointer">
+                <FaSearch className="text-md" />
+              </div>
+          </form>
         </div>
       </div>
     </div>
