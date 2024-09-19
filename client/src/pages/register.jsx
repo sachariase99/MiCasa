@@ -1,80 +1,101 @@
-import { useState, useContext, useEffect } from "react"; // Importing necessary hooks
-import { useNavigate, Link } from "react-router-dom"; // Importing routing functionalities
-import { useSupabase } from "../supabase/supabaseClient"; // Importing Supabase client
-import { AuthContext } from "../context/authContext"; // Importing authentication context
+// Importing React and necessary hooks from React Router and Supabase
+import React, { useState } from "react"; // React and useState hook for state management
+import { Link, useNavigate } from "react-router-dom"; // Link for navigation and useNavigate for programmatic navigation
+import { useSupabase } from "../supabase/supabaseClient"; // Custom hook to access Supabase client
 
-// Main LoginPage component
-const LoginPage = () => {
-  const [email, setEmail] = useState(""); // State for email input
-  const [password, setPassword] = useState(""); // State for password input
-  const [error, setError] = useState(null); // State for error messages
-  const { isLoggedIn, login } = useContext(AuthContext); // Using AuthContext for login state
-  const navigate = useNavigate(); // Hook for navigation
+// RegisterPage component for user registration
+const RegisterPage = () => {
+  // State variables for email, password, error, and success messages
+  const [email, setEmail] = useState(""); // Email state with initial empty string
+  const [password, setPassword] = useState(""); // Password state with initial empty string
+  const [error, setError] = useState(null); // Error state initialized to null
+  const [successMessage, setSuccessMessage] = useState(null); // Success message state initialized to null
+  
+  // Using Supabase client from context
+  const { supabase } = useSupabase();
+  
+  // Hook for programmatic navigation
+  const navigate = useNavigate();
 
-  const { supabase } = useSupabase(); // Getting Supabase instance
-
-  // Effect to redirect if the user is already logged in
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/user"); // Redirect to user page
-    }
-  }, [isLoggedIn, navigate]);
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    setError(null); // Reset any existing errors
+  // Function to handle registration
+  const handleRegister = async (e) => {
+    e.preventDefault(); // Prevents default form submission behavior
+    setError(null); // Resetting error state
+    setSuccessMessage(null); // Resetting success message state
 
     try {
-      // Attempt to sign in with Supabase
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Calling Supabase's signUp method
+      const { error } = await supabase.auth.signUp({
+        email, // Using destructure assignment to access the email state
+        password, // Using destructure assignment to access the password state
       });
+
+      // Handling potential errors
       if (error) {
-        setError(error.message); // Set error message if sign in fails
+        setError(error.message); // Updating error state with the error message
       } else {
-        login(email); // Update context on successful login
-        navigate("/user"); // Redirect to user page
+        setSuccessMessage("Registration successful! Redirecting to login..."); // Setting success message
+        setTimeout(() => {
+          navigate("/login"); // Redirecting to login page after 2 seconds
+        }, 2000);
       }
     } catch (error) {
-      setError("Error signing in. Please try again."); // Handle any unexpected errors
+      // Catching any other errors
+      setError("Error registering. Please try again."); // Setting error state
     }
   };
 
   return (
-    <div className="p-4 mb-8 mx-8 my-24">
+    <div className="p-4 mb-8 mx-8 my-24"> {/* Container for the form */}
       <div>
-        <h2 className="text-4xl font-bold mb-2">Login</h2> {/* Login header */}
-        <p className="text-xl font-semibold mb-3">Indtast din email og adgangskode for at logge ind</p>
-        <form onSubmit={handleSubmit} className="flex flex-col w-1/3"> {/* Form with submit handler */}
-          {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error if it exists */}
+        <h2 className="text-4xl font-bold mb-2">Register</h2> {/* Title */}
+        <p className="text-xl font-semibold mb-3">
+          Indtast din email og adgangskode for at registrere {/* Instruction */}
+        </p>
+        <form onSubmit={handleRegister} className="flex flex-col w-1/3"> {/* Form for registration */}
+          {error && <p style={{ color: "red" }}>{error}</p>} {/* Conditional rendering for error message */}
+          {successMessage && (
+            <p className="text-green absolute top-2 left-1/2 -translate-x-1/2 bg-[#c2c2c2] py-2 px-4">
+              {successMessage} {/* Conditional rendering for success message */}
+            </p>
+          )}
+          {/* Email input field */}
           <input
+            id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)} // Update email state on change
-            required
+            value={email} // Binding input value to state
+            onChange={(e) => setEmail(e.target.value)} // Updating state on input change
+            required // HTML5 validation
             placeholder="Indtast din email"
             className="hover:bg-[#eee] border-[#C52525] border-[1px] px-2 py-1 w-full mb-2 outline-none shadow-xl"
           />
+
+          {/* Password input field */}
           <input
+            id="password"
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // Update password state on change
-            required
+            value={password} // Binding input value to state
+            onChange={(e) => setPassword(e.target.value)} // Updating state on input change
+            required // HTML5 validation
+            minLength="6" // Minimum password length
             placeholder="Indtast din adgangskode"
             className="hover:bg-[#eee] border-[#C52525] border-[1px] px-2 py-1 w-full outline-none shadow-xl"
           />
+
+          {/* Buttons and link to login page */}
           <div className="flex flex-row-reverse items-end justify-between mt-4">
             <button
               type="submit" // Button to submit the form
               className="bg-[#F7EBEC] hover:bg-[#DDBDD5] w-1/3 justify-start py-2 rounded-lg uppercase font-bold shadow-xl"
             >
-              Log in
+              Register
             </button>
             <p>
-              Not registered yet? <Link to="/register" className="text-blue-400 underline">Register</Link>
-            </p> {/* Link to registration page */}
+              Already registered?{" "}
+              <Link to="/login" className="text-blue-400 underline">
+                Login {/* Link to login page */}
+              </Link>
+            </p>
           </div>
         </form>
       </div>
@@ -82,4 +103,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage; // Exporting the LoginPage component for use in other parts of the application
+export default RegisterPage; // Exporting the RegisterPage component
